@@ -233,6 +233,8 @@ int main()
 		cout << "d1 != d2" << endl;
 }
 #endif
+
+#if 0
 class Data
 {
 public:
@@ -241,6 +243,92 @@ public:
 		_year = year;
 		_month = month;
 		_day = day;
+	}
+	Data(const Data& d)
+	{
+		_year = d._year;
+		_month = d._month;
+		_day = d._day;
+
+		cout << "Data(const Data& d):" << this << endl;
+	}
+
+private:
+	int _year;
+	int _month;
+	int _day;
+};
+
+//以值的方式传递类类型的对象，在传参期间编译器会调用拷贝构造函数，构造一个临时对象
+//缺陷：代码的运行效率低
+void TestData1(Data dd)
+{}
+
+//一般情况下很少使用以值的方式传递类类型的参数，一般都是使用引用的方式作为参数类型
+//优点：少了一次拷贝构造的调用，参数效率高
+//缺点：修改形参就是改变外部实参
+void TestData2(const Data& dd)
+{}
+
+Data TestData3()
+{
+	Data d;
+	return d;
+}
+
+//在返回值期间，调用构造函数创建了一个匿名对象，因为该匿名对象没有名字，也拿不到该对象的地址，
+//因此无法对其进行修改，因此编译器将匿名对象当成一个临时对象用来进行返回
+Data TestData4()
+{
+	return Data(2020,8,8);//创建了一个没有名字的对象---匿名对象
+}
+
+int main()
+{
+	Data d(2020, 8, 8);
+	TestData1(d);
+	TestData3();
+	TestData4();
+	return 0;
+}
+#endif
+
+#if 0
+class Data
+{
+public:
+	Data(int year = 1900, int month = 1, int day = 1)
+	{
+		_year = year;
+		_month = month;
+		_day = day;
+	}
+	Data(const Data& d)
+	{
+		_year = d._year;
+		_month = d._month;
+		_day = d._day;
+
+		cout << "Data(const Data& d):" << this << endl;
+	}
+
+	//执行的是前置++操作
+	Data& operator++()
+	{
+		_day += 1;
+		return *this;
+	}
+
+	//后置++
+	//注意：temp是函数栈上的对象，当函数退出时，temp就要被销毁掉
+	//因此后置++的函数返回值不能使用引用的方式进行返回，只能按照值的方式进行返回
+	//语法为了区分后置++和前置++运算符重载的区别
+	//最终在后置++的参数列表中增加了一个int类型的参数,在实际函数调用中int类型参数不会使用
+	Data operator++(int)
+	{
+		Data temp(*this);
+		_day += 1;
+		return temp;
 	}
 
 private:
@@ -251,9 +339,156 @@ private:
 
 int main()
 {
-	Data d1(2020, 8, 7);
-	Data d2(2020, 8, 8);
+	Data d1(2020, 8, 8);
+	Data d2;
 
-	d2 = d1;
+	d2 = ++d1;//d2 = d1.operator++();
+
+	d2 = d1++;//相当于d2 = d1.operator++(0);
+	return 0;
+}
+#endif
+
+#if 0
+//必须要有返回值：目的是为了支持连续赋值
+Date& operator=(const Date& d)
+{
+	//避免自己给自己赋值--区分this和d是否是同一个对象
+	if (this != &d)
+	{
+		_year = d._year;
+		_month = d._month;
+		_day = d._day;
+	}
+	return &*this;
+}
+#endif
+
+//const修饰的变量
+/*
+在C语言中，被const修饰的是一个不能被修改的变量
+测试：const int a = 10;  int array[a];//编译报错
+在C++中，被const修饰的已经是一个常量，而且具有宏替换的属性
+void TestConst()
+{
+	const int a = 10;
+	int* pa = (int*)&a;
+
+	*pa = 100;
+	cout << a << endl;//10 但是a的值已经是100，原因是在编译阶段，编译器已经将a用10替换了
+	cout << *pa << endl;//100
+}
+const修饰常量的替换发生在编译阶段，会参与参数类型的检测，代码的安全性更高。
+在C++中建议使用const修饰的常量代替宏常量
+*/
+
+#if 0
+class Date
+{
+public:
+	Date(int year = 1900, int month = 1, int day = 1)
+	{
+		_year = year;
+		_month = month;
+		_day = day;
+	}
+
+	//被const修饰的成员函数称为const类型的成员函数
+	//const成员函数中不能修改类的“成员函数”
+	//const本质上修饰的是成员函数隐藏的this指针
+	//表示：this指针指向的空间中的内容不能被修改，即：this指向当前对象不能修改
+	void PrintDate()const
+	{
+		
+		cout << _year << "-" << _month << "-" << _day << endl;
+		//_day++;//被const修饰，不能被修改
+		cout << typeid(this).name() << endl;
+	}
+
+	//const在返回值类型之前，修饰的是该函数的返回值
+	//普通成员函数中，可以修改this指向的当前对象的属性信息
+	const Date& GetDate()
+	{
+		_day++;
+		cout << typeid(this).name() << endl;
+		return *this;
+	}
+	/*
+	C++的人性化：
+	理论上，被const修饰的成员函数中不能修改任何的"成员变量"，但有些情况下，可能需要在const成员函数中修改个别成员变量
+	*/
+
+private:
+	int _year;
+	int _month;
+	int _day;
+	//mutable int _day;
+};
+
+int main()
+{
+	Date d(2020,8,8);
+	d.PrintDate();
+	d.GetDate();
+	return 0;
+}
+#endif
+
+class Date
+{
+public:
+	Date(int year = 1900, int month = 1, int day = 1)
+	{
+		_year = year;
+		_month = month;
+		_day = day;
+	}
+
+	void PrintDate()const
+	{
+		cout << _year << "-" << _month << "-" << _day << endl;
+	}
+
+	//Date* const this
+	Date* operator&()
+	{
+		cout << this << endl;
+		return this;
+	}
+
+	//const修饰成员函数，本质在修饰this指针
+	//this指针类型：const Date* const this
+	const Date* operator&()const
+	{
+		return this;
+	}
+
+	void SetDay(int day)
+	{
+		_day = day;
+	}
+
+	int GetDay()const
+	{
+		return _day;
+	}
+
+private:
+	int _year;
+	int _month;
+	int _day;
+};
+
+int main()
+{
+	const Date d1(2020, 8, 8);
+	d1.PrintDate();
+
+	//d1是const类型的对象，即d1对象的成员不能被修改，假若调用了普通类型的成员函数，有可能被修改
+	//因此const类型的对象只能调用const类型的成员函数，不能调用普通类型的成员函数
+	//d1.SetDay(9);
+	
+	Date d2(2020,8,9);
+	d2.GetDay(9);
 	return 0;
 }
