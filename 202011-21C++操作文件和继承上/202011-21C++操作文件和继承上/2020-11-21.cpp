@@ -294,13 +294,8 @@ int main()
 	//3. 子类的指针不能直接指向基类的对象，但是强转可以--不安全
 	Student* ps = (Student*)&p;
 	ps->_name = "zhangsen";
-	ps->_gender = "男";
-	ps->_stuid = 100;//因为基类中没有这个成员变量，所以解引用后赋值不安全
+	ps->_gender = "男"; 
+	ps->_stuid = 100;/ /因为基类中没有这个成员变量，所以解引用后赋值不安全
 	return 0;
-<<<<<<< HEAD
-
-
-=======
->>>>>>> 366348505fad10581a9f7775379c94dd164be008
 }
 #endif
