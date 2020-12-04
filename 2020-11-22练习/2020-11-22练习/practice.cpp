@@ -51,5 +51,42 @@ int main()
 	cout << row << " "<< colum <<" "<< max << endl;
 	return 0;
 }
+
+int main()
+{
+	int i = 0, a = 1, b = 2, c = 3;
+	i = ++a || ++b || ++c;
+	printf("%d %d %d %d", i,a,b,c);//1 2 2 3
+	return 0;
+}
 #endif
 
+class B
+{
+public:
+	B()
+	{
+		cout << "default constructor" << " ";
+	}
+	~B()
+	{
+		cout << "destructed" << " ";
+	}
+	B(int i) :data(i)
+	{
+		cout << "constructed by parameter" << data << " ";
+	}
+private:
+	int data;
+};
+
+B Play(B b)
+{
+	return b;
+}
+
+int main()
+{
+	B temp = Play(5);
+	return 0;
+}
