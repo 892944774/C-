@@ -59,7 +59,6 @@ int main()
 	printf("%d %d %d %d", i,a,b,c);//1 2 2 3
 	return 0;
 }
-#endif
 
 class B
 {
@@ -90,3 +89,71 @@ int main()
 	B temp = Play(5);
 	return 0;
 }
+
+#https://www.nowcoder.com/questionTerminal/01e7bedf5dd2421aa6f879fd8055e51d
+class Solution {
+public:
+	/**
+	*
+	* @param number string×Ö·û´®
+	* @return string×Ö·û´®
+	*/
+	string change(string number) {
+		// write code here
+		string numbers = number;
+		int left = 0;
+		int right = numbers.size() - 1;
+
+		while (left < right)
+		{
+			while (left < right && (numbers[left] - '0') % 2 != 0)
+			{
+				left++;
+			}
+
+			while (left < right && (numbers[right] - '0') % 2 != 0)
+			{
+				right--;
+			}
+
+			char temp = numbers[left];
+			numbers[left] = numbers[right];
+			numbers[right] = temp;
+
+			left++;
+			right--;
+		}
+		return numbers;
+	}
+};
+
+
+#https://www.nowcoder.com/questionTerminal/6736cc3ffd1444a4a0057dee89be789b?orderByHotValue=1&page=1&onlyReference=false
+
+#include <iostream>
+using namespace std;
+#include <algorithm>
+#include <vector>
+
+int main()
+{
+	int n;
+	while (cin >> n)
+	{
+		vector<int> v;
+		long long sum = 0;
+		v.resize(3 * n);
+		for (int i = 0; i< (3 * n); i++)
+		{
+			cin >> v[i];
+		}
+
+		std::sort(v.begin(), v.end());
+		for (int i = n; i <= 3 * n - 2; i += 2)
+		{
+			sum += v[i];
+		}
+		cout << sum << endl;
+	}
+}
+#endif
