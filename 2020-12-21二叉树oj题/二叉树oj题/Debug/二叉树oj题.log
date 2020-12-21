@@ -1,0 +1,5 @@
+﻿  20201-12-21.cpp
+e:\代码\c++\二叉树oj题\二叉树oj题\20201-12-21.cpp(88): error C2039: “Find”: 不是“BSTNode<std::string,std::size_t>”的成员
+  e:\代码\c++\二叉树oj题\二叉树oj题\20201-12-21.cpp(84): note: 参见“BSTNode<std::string,std::size_t>”的声明
+e:\代码\c++\二叉树oj题\二叉树oj题\20201-12-21.cpp(91): error C2039: “Insert”: 不是“BSTNode<std::string,std::size_t>”的成员
+  e:\代码\c++\二叉树oj题\二叉树oj题\20201-12-21.cpp(84): note: 参见“BSTNode<std::string,std::size_t>”的声明
