@@ -157,3 +157,20 @@ int main()
 	}
 }
 #endif
+
+//https://leetcode-cn.com/problems/sort-array-by-parity/solution/
+class Solution {
+public:
+	vector<int> sortArrayByParity(vector<int>& A) {
+		int i = 0, j = A.size() - 1;
+		vector<int> ans(j + 1);
+		for (int k = 0; k < A.size(); k++)
+		{
+			if (A[k] % 2)
+				ans[j--] = A[k];
+			else 
+				ans[i++] = A[k];
+		}
+		return ans;
+	}
+};
