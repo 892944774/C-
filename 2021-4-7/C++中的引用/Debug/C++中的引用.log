@@ -1,0 +1,5 @@
+﻿  Quote.cpp
+e:\代码\c++\c++中的引用\c++中的引用\quote.cpp(670): error C2819: “Building”类型没有重载成员“operator ->”
+  e:\代码\c++\c++中的引用\c++中的引用\quote.cpp(652): note: 参见“Building”的声明
+  e:\代码\c++\c++中的引用\c++中的引用\quote.cpp(670): note: 是否改用“.”?
+e:\代码\c++\c++中的引用\c++中的引用\quote.cpp(670): error C2232: “->Building::SittingRoom”: 左操作数有“class”类型，使用“.”
