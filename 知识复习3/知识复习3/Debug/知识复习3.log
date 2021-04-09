@@ -1,0 +1,4 @@
+﻿职工管理系统.obj : error LNK2005: "public: __thiscall WorkManager::WorkManager(void)" (??0WorkManager@@QAE@XZ) 已经在 workmanager.obj 中定义
+职工管理系统.obj : error LNK2005: "public: __thiscall WorkManager::~WorkManager(void)" (??1WorkManager@@QAE@XZ) 已经在 workmanager.obj 中定义
+职工管理系统.obj : error LNK2005: "public: void __thiscall WorkManager::Show_Menu(void)" (?Show_Menu@WorkManager@@QAEXXZ) 已经在 workmanager.obj 中定义
+E:\代码\C++\知识复习3\Debug\知识复习3.exe : fatal error LNK1169: 找到一个或多个多重定义的符号
